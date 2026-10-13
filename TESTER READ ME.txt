@@ -1,0 +1,63 @@
+JAGGED ALLIANCE 3 - TEST BUILD @DATE@
+================================================================
+
+Two separate tools. Install either one alone, or both.
+
+
+1. JAPE3000.exe - the save editor
+----------------------------------------------------------------
+Just run it. Nothing to install, no folder to pick, no admin rights.
+It keeps its own settings and makes its own backups.
+
+IT IS A TEST BUILD. Use a COPY of any save you care about.
+
+
+2. ja3se.hpk - the script extender
+----------------------------------------------------------------
+YOU DO NOT HAVE TO INSTALL THIS. Open JAPE3000.exe and it puts
+the extender in your game folder for you, and keeps it up to date
+from then on. There is no button to press. The live page says
+whether it worked.
+
+It only writes when the file is missing or out of date, and it
+never touches anything else in your game folder.
+
+BY HAND, if you would rather, or if you are testing the extender
+without the editor - copy it into the game's DLC folder:
+
+    <where JA3.exe lives>\DLC\ja3se.hpk
+
+Make the DLC folder if it is not there. That is the whole install.
+The file in this zip and the one the editor installs are the same
+build.
+
+To remove it, delete that one file. It writes nothing into Program
+Files, adds no registry keys and never touches a savegame.
+
+It writes diagnostic files into
+    %APPDATA%\Jagged Alliance 3\
+named ja3se-*.txt. Those are safe to delete and are rewritten each
+time the game runs. If something goes wrong, ja3se-report.txt says
+what, and it is worth sending back.
+
+
+WHAT THEY DO TOGETHER
+----------------------------------------------------------------
+The extender writes out what the RUNNING game actually contains -
+including whatever mods are loaded - and the save editor reads that
+if it finds it. So with both installed, modded mercs and modded
+items show up in the editor instead of only the 322 that shipped
+with the game.
+
+Neither depends on the other. With no extender the editor works as
+it always did; with no editor the extender still runs.
+
+
+REPORTING
+----------------------------------------------------------------
+Anything that fails is worth more than everything that passes.
+Screenshots beat descriptions - real numbers off a real screen have
+already cracked one file format on this project.
+
+Say which of the two you were using, and on what: your game version,
+which mods, and whether the save was JA2 or JA3.

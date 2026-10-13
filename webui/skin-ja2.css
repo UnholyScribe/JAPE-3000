@@ -1,0 +1,309 @@
+/* Jagged Alliance 2 laptop skin.
+ *
+ * Purely additive, like skin-aim.css. Every rule is scoped under
+ * [data-skin="ja2"], so with the skin off this file changes nothing.
+ *
+ * Built from the game's own art, pulled out of Data/Laptop.slf:
+ *   ja2-bg.png    GREENBACK.STI   the mottled green the laptop pages tile
+ *   ja2-wildfire.jpg              the Wildfire loading screen, as the page
+ *                                 backdrop - Jaeger Allianz's suggestion, and
+ *                                 he is right that it is the iconic one
+ *   ja2-aim.png   AIMSYMBOL.STI   the A.I.M. banner
+ *
+ * The look is the ENIAC Power ATii laptop: dark olive green, hard edges,
+ * chunky bevels, and gold for anything that matters.
+ */
+
+:root[data-skin="ja2"] {
+  --bg:        #0a1806;
+  --bg-grad:   none;
+  --surface:   #1b3012;
+  --surface-2: #16280f;
+  --surface-3: #10200a;
+  --border:    #0a1505;
+  --border-2:  #3c5c28;
+  --text:      #d2e0c0;
+  --muted:     #93a884;
+  --faint:     #6b7f5e;
+  --accent:    #d8a848;   /* the laptop's gold */
+  --accent-dim:#7a5f22;
+  --good:      #8fae5c;
+  --warn:      #d8a848;
+  --bad:       #b4523c;
+  --info:      #7f9a5e;
+  --r:   0;               /* the laptop has no rounded anything */
+  --r-sm: 0;
+  --shadow: 0 2px 0 rgba(0,0,0,.6);
+  --font: "Segoe UI", "Tahoma", system-ui, sans-serif;
+  --mono: "Consolas", "Cascadia Mono", ui-monospace, monospace;
+
+  --ja2-gold:  #d8a848;
+  --ja2-metal: #3c5c28;
+}
+
+/* ── the laptop screen ───────────────────────────────────────────────── */
+:root[data-skin="ja2"] body {
+  /* NOTE: the polish pass at the bottom of this file overrides this rule.
+     Change it there, not here. */
+  background: linear-gradient(rgba(6,16,4,.72), rgba(6,16,4,.82)),
+              url("ja2-bg.png") repeat top left;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* the faint horizontal banding of a 1999 LCD */
+:root[data-skin="ja2"] #app::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,.05) 0px,
+    rgba(0,0,0,.05) 1px,
+    transparent 1px,
+    transparent 4px);
+}
+
+/* ── top bar: the A.I.M. banner across the top of the page ───────────── */
+:root[data-skin="ja2"] .topbar {
+  background: linear-gradient(#24401a, #16280f);
+  border-bottom: 2px solid #000;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 2px 0 rgba(0,0,0,.5);
+  color: var(--text);
+}
+/* The A.I.M. banner IS the corner of the bar - it fills that block edge to
+   edge, top to bottom, with no green showing around it.
+
+   aspect-ratio does the work: the banner stretches to the full height of the
+   bar (align-self: stretch), and its width is then derived from the image's
+   own 204x52 proportions. So it fills the block exactly - nothing cropped,
+   nothing squashed - whatever height the bar ends up being. */
+:root[data-skin="ja2"] .topbar { padding-left: 0; }
+:root[data-skin="ja2"] .brand {
+  align-self: stretch;
+  /* 208px is the sidebar column width in style.css. Matching it exactly is
+     the point: the banner's right edge and the nav's right edge become one
+     continuous line down the window instead of two that nearly agree.
+     If that grid column ever changes, this has to change with it. */
+  width: 208px;
+  min-width: 208px;
+  flex: 0 0 208px;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  /* cover rather than a stretch - the block is a slightly wider ratio than
+     the 204x52 art, so this fills it by scaling up and trimming a couple of
+     pixels top and bottom instead of squashing the logo sideways. */
+  background: url("ja2-aim.png") no-repeat center center / cover;
+  font-size: 0;                 /* the wordmark is gone; the art says it */
+  color: transparent;
+  border-right: 1px solid #000;
+}
+:root[data-skin="ja2"] .brand .mark,
+:root[data-skin="ja2"] .brand small { display: none; }
+
+:root[data-skin="ja2"] .savepick {
+  background: none; border: 0; border-radius: 0; padding: 0; gap: 6px;
+}
+:root[data-skin="ja2"] .savepick select,
+:root[data-skin="ja2"] input,
+:root[data-skin="ja2"] select,
+:root[data-skin="ja2"] textarea {
+  appearance: none; -webkit-appearance: none;
+  background: #0d1c07;
+  color: var(--text);
+  border: 1px solid #000;
+  border-radius: 0;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,.7),
+              inset -1px -1px 0 rgba(120,150,90,.30);
+  font-family: var(--mono);
+}
+:root[data-skin="ja2"] .savepick select {
+  padding: 4px 24px 4px 8px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='6'%3E%3Cpath d='M0 0h9L4.5 6z' fill='%23d8a848'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+
+/* ── buttons: raised metal that presses in ───────────────────────────── */
+:root[data-skin="ja2"] .btn {
+  border-radius: 0;
+  background: linear-gradient(#2f4c20, #1d3313);
+  border: 1px solid #000;
+  color: var(--text);
+  box-shadow: inset 1px 1px 0 rgba(150,190,110,.35),
+              inset -1px -1px 0 rgba(0,0,0,.6);
+  font-family: var(--font);
+  letter-spacing: .02em;
+}
+:root[data-skin="ja2"] .btn:hover { background: linear-gradient(#3a5c28, #24401a); }
+:root[data-skin="ja2"] .btn:active {
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,.6),
+              inset -1px -1px 0 rgba(150,190,110,.25);
+}
+:root[data-skin="ja2"] .btn.primary {
+  background: linear-gradient(#d8a848, #a87c28);
+  color: #1a1204;
+  border-color: #000;
+  font-weight: 700;
+}
+:root[data-skin="ja2"] .btn.primary:hover { background: linear-gradient(#e8bc60, #b88c30); }
+:root[data-skin="ja2"] .btn.ghost {
+  background: rgba(0,0,0,.25);
+  color: var(--text);
+}
+
+/* ── panels: inset plates on the laptop screen ───────────────────────── */
+:root[data-skin="ja2"] .card {
+  background-color: rgba(22, 40, 15, .88);
+  border: 1px solid #000;
+  border-radius: 0;
+  box-shadow: inset 1px 1px 0 rgba(120,160,80,.18),
+              inset -1px -1px 0 rgba(0,0,0,.55),
+              var(--shadow);
+}
+:root[data-skin="ja2"] .card-h {
+  background-color: rgba(10, 24, 6, .55);
+  border-bottom: 1px solid #000;
+}
+:root[data-skin="ja2"] .card-h h2 {
+  color: var(--ja2-gold);
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  font-size: 12.5px;
+}
+
+/* ── the sidebar reads like the laptop's bookmark strip ──────────────── */
+:root[data-skin="ja2"] .nav {
+  background-color: rgba(10, 24, 6, .72);
+  border-right: 2px solid #000;
+}
+:root[data-skin="ja2"] .nav a {
+  border-radius: 0;
+  border-left: 3px solid transparent;
+  letter-spacing: .04em;
+}
+:root[data-skin="ja2"] .nav a:hover { background: rgba(60,92,40,.35); }
+:root[data-skin="ja2"] .nav a.on {
+  background: linear-gradient(90deg, rgba(216,168,72,.22), transparent);
+  border-left-color: var(--ja2-gold);
+  color: var(--ja2-gold);
+}
+:root[data-skin="ja2"] .nav-label {
+  color: var(--faint);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+}
+
+/* ── everything else square, to match ────────────────────────────────── */
+:root[data-skin="ja2"] .pending-chip,
+:root[data-skin="ja2"] .tag,
+:root[data-skin="ja2"] .chip,
+:root[data-skin="ja2"] .savebar,
+:root[data-skin="ja2"] .bar,
+:root[data-skin="ja2"] .bar > i,
+:root[data-skin="ja2"] .meter,
+:root[data-skin="ja2"] input[type="range"],
+:root[data-skin="ja2"] ::-webkit-scrollbar-thumb { border-radius: 0; }
+:root[data-skin="ja2"] input[type="range"]::-webkit-slider-thumb {
+  border-radius: 0;
+  background: var(--ja2-gold);
+  border: 1px solid #000;
+}
+:root[data-skin="ja2"] .savebar {
+  background: linear-gradient(#24401a, #16280f);
+  border-top: 2px solid #000;
+}
+:root[data-skin="ja2"] h1 {
+  color: var(--ja2-gold);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+:root[data-skin="ja2"] .banner {
+  border-radius: 0;
+  border-left: 3px solid var(--ja2-gold);
+}
+
+/* ── polish pass ─────────────────────────────────────────────────────── */
+
+/* the panels were too close in value to the background, so the page read
+   as one flat green. Lift them and darken the ground behind. */
+:root[data-skin="ja2"] body {
+  /* The Wildfire loading screen - the hut in moonlight - sits behind
+     everything, fixed so it does not slide about while a long merc list
+     scrolls over it. Scrimmed hard on top: the picture is doing atmosphere,
+     not decoration, and a page you cannot read is not a nicer page. The
+     The GREENBACK tile is deliberately NOT layered here - it is opaque, so
+     it simply hid the photograph. It still tiles the panels.
+     Jaeger Allianz suggested the loading screens and he picked the right one. */
+  background-color: #060f04;
+  background-image:
+    linear-gradient(rgba(14,12,8,.34), rgba(6,6,4,.62)),
+    url("ja2-wildfire.jpg");
+  background-repeat: no-repeat, no-repeat;
+  /* Anchored to the TOP, not the middle. The picture is 4:3 and the window is
+     wide. The WILDFIRE wordmark used to be sliced in half by that crop, and
+     no background-position fixes it - anchor to the top and the logo fights
+     the text in front of it, anchor to the bottom and you get the fence and
+     the publisher marks instead of the hut. So the picture itself is cropped
+     to the hut, between the lettering and the logos, and centring it then
+     works at any window shape. See the crop in build notes. */
+  background-position: center center, center center;
+  background-size: cover, cover;
+  background-attachment: fixed, fixed;
+}
+:root[data-skin="ja2"] .card {
+  background-color: rgba(28, 50, 19, .94);
+}
+:root[data-skin="ja2"] .nav {
+  background-color: rgba(8, 20, 5, .88);
+}
+
+/* the laptop's screen edge - a hard inner border round the whole page */
+:root[data-skin="ja2"] .body {
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.8);
+}
+
+/* gold, not white, for the numbers that matter */
+:root[data-skin="ja2"] .v,
+:root[data-skin="ja2"] .money-in { color: var(--ja2-gold); }
+
+/* JA2's interface font, straight from the horse's mouth: Fonts.slf contains
+   FONT10ARIAL, FONT12ARIAL and FONT10ROMAN. The game rendered Arial to
+   bitmaps, so asking for Arial here is not an approximation - it is the
+   original face at last, in outline form. */
+:root[data-skin="ja2"] {
+  --font: Arial, Helvetica, "Liberation Sans", sans-serif;
+  --mono: "Courier New", Courier, monospace;
+}
+
+/* ── palette taken from the loading screen itself ────────────────────────
+ *
+ * Sampled rather than guessed. The whole image averages #1a1612 - a warm
+ * near-black, not the olive green this skin started with - the lit grass sits
+ * around #151b10, and the moon reads #aba4b0. So the ground goes warm and
+ * dark, the panels lift just far enough to be read against it, and the
+ * laptop's gold stays exactly where it was: it is already the colour of the
+ * lamp over the hut door and of the WILDFIRE lettering.
+ */
+:root[data-skin="ja2"] {
+  --bg:        #100d09;
+  --surface:   #1e2419;
+  --surface-2: #171c14;
+  --surface-3: #11150f;
+  --border:    #090c06;
+  --border-2:  #3a4630;
+  --text:      #d6d2c4;
+  --muted:     #99a08d;
+  --faint:     #6e7566;
+  --ja2-moon:  #aba4b0;
+}
+
+/* Panels sit over a photograph now, so they carry their own ground rather
+   than trusting the page behind them. Slightly translucent, so the moonlight
+   still comes through at the edges instead of the layout looking pasted on. */
+:root[data-skin="ja2"] .card { background-color: rgba(30, 36, 25, .93); }
+:root[data-skin="ja2"] .nav  { background-color: rgba(12, 16, 9, .90); }
+:root[data-skin="ja2"] .item { background-color: rgba(23, 28, 20, .80); }

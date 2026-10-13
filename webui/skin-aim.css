@@ -1,0 +1,420 @@
+/* A.I.M. 3.0 skin - the in-game terminal look.
+ *
+ * Purely additive. Every rule is scoped under [data-skin="aim"], so with the
+ * skin off this file changes nothing and the original design is byte for byte
+ * what it always was.
+ *
+ * The look is taken from the game's own A.I.M. Evaluation screen: a dark
+ * bevelled monitor housing, a cream status strip across the top, slate panels,
+ * olive section headings in caps, blue stat bars, and monospace throughout.
+ */
+
+/* ── palette ─────────────────────────────────────────────────────────── */
+:root[data-skin="aim"] {
+  --bg:        #101114;
+  --bg-grad:   radial-gradient(1400px 700px at 50% -20%, #23262b 0%, transparent 65%),
+               radial-gradient(900px 600px at 50% 120%, #1a1c20 0%, transparent 60%);
+  --surface:   #3a434d;   /* the evaluation panel */
+  --surface-2: #333b45;
+  --surface-3: #2c333c;
+  --border:    #232a31;
+  --border-2:  #4d5763;
+  --text:      #d6d2c4;   /* warm off-white, like the terminal type */
+  --muted:     #9aa0a8;
+  --faint:     #6f767e;
+  --accent:    #e0a83c;   /* A.I.M. amber */
+  --accent-dim:#8a6716;
+  --good:      #98a06a;   /* olive */
+  --warn:      #e0a83c;
+  --bad:       #c96b5c;
+  --info:      #5b8db8;   /* the blue of the stat bars */
+  --r:   3px;             /* the terminal has hard corners */
+  --r-sm: 2px;
+  --shadow: 0 1px 0 rgba(255,255,255,.04), 0 10px 30px -14px rgba(0,0,0,.8);
+  --font: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+  --mono: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+
+  --aim-cream:  #cfc9ad;  /* the status strip / URL bar */
+  --aim-cream-2:#e2ddc6;
+  --aim-ink:    #2a2b26;  /* text on cream */
+  --aim-olive:  #98a06a;
+}
+
+/* ── the monitor housing ─────────────────────────────────────────────── */
+:root[data-skin="aim"] body {
+  background:
+    linear-gradient(#0b0c0e, #0b0c0e) padding-box,
+    var(--bg-grad) border-box;
+  background-color: var(--bg);
+}
+
+/* faint scanlines over everything, kept very low so text stays crisp */
+:root[data-skin="aim"] #app::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.014) 0px,
+    rgba(255,255,255,.014) 1px,
+    transparent 1px,
+    transparent 3px);
+}
+
+/* ── top bar becomes the cream status strip ──────────────────────────── */
+:root[data-skin="aim"] .topbar {
+  background: linear-gradient(#d6d0b6, #c2bca1);
+  color: var(--aim-ink);
+  border-bottom: 2px solid #7d7962;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 2px 0 rgba(0,0,0,.35);
+}
+:root[data-skin="aim"] .topbar .brand,
+:root[data-skin="aim"] .topbar .brand small,
+:root[data-skin="aim"] .topbar .spacer + * { color: var(--aim-ink); }
+:root[data-skin="aim"] .brand { letter-spacing: .10em; text-transform: uppercase; }
+:root[data-skin="aim"] .brand small { color: #5d5a4a; letter-spacing: .06em; }
+:root[data-skin="aim"] .brand .mark {
+  background: #2f3a44;
+  color: var(--aim-cream);
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.4);
+}
+:root[data-skin="aim"] .savepick select {
+  background: var(--aim-cream-2);
+  color: var(--aim-ink);
+  border: 1px solid #8d8871;
+  border-radius: 2px;
+  font-family: var(--mono);
+}
+
+/* Buttons sitting on the cream strip need dark ink, not the cream used
+   everywhere else - otherwise they are invisible against their own bar. */
+:root[data-skin="aim"] .topbar .btn {
+  background: linear-gradient(#b9b39a, #a49e86);
+  border-color: #6f6b57;
+  color: #23241f;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+}
+:root[data-skin="aim"] .topbar .btn:hover {
+  background: linear-gradient(#c6c0a6, #b1ab92);
+}
+:root[data-skin="aim"] .topbar .btn.ghost {
+  background: rgba(255,255,255,.18);
+  border-color: #7d7962;
+  color: #2a2b26;
+}
+:root[data-skin="aim"] .topbar .btn.ghost:hover {
+  background: rgba(255,255,255,.34);
+}
+:root[data-skin="aim"] .pending-chip {
+  background: rgba(0,0,0,.12);
+  border: 1px solid #8d8871;
+  color: #2a2b26;
+}
+
+/* ── side nav: the olive list column ─────────────────────────────────── */
+:root[data-skin="aim"] .nav {
+  background: linear-gradient(#2b3138, #23282e);
+  border-right: 2px solid #171b20;
+}
+:root[data-skin="aim"] .nav-label {
+  color: var(--aim-olive);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+:root[data-skin="aim"] .nav a {
+  border-radius: 2px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+:root[data-skin="aim"] .nav a.on {
+  background: linear-gradient(#c8a24a, #a8842f);
+  color: #1d1c17;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+}
+:root[data-skin="aim"] .nav a.on .ic,
+:root[data-skin="aim"] .nav a.on .count { color: #1d1c17; }
+
+/* ── cards become terminal panels ────────────────────────────────────── */
+:root[data-skin="aim"] .card {
+  background: var(--surface);
+  border: 1px solid #222930;
+  border-radius: 3px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 8px 22px -14px rgba(0,0,0,.9);
+}
+:root[data-skin="aim"] .card-h {
+  background: linear-gradient(rgba(255,255,255,.05), transparent);
+  border-bottom: 1px solid #2a313a;
+}
+:root[data-skin="aim"] .card-h h2 {
+  color: var(--aim-olive);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: 13px;
+}
+:root[data-skin="aim"] .card-h .hint,
+:root[data-skin="aim"] .sub { color: #9aa0a8; }
+
+:root[data-skin="aim"] h1 {
+  color: var(--aim-cream);
+  text-transform: uppercase;
+  letter-spacing: .10em;
+}
+
+/* section rules inside cards */
+:root[data-skin="aim"] .slot-h {
+  color: var(--aim-olive);
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: 10px;
+}
+:root[data-skin="aim"] .slot-h .line { background: #4a545f; }
+
+/* ── buttons: raised terminal keys ───────────────────────────────────── */
+:root[data-skin="aim"] .btn {
+  background: linear-gradient(#4a545f, #3c454e);
+  border: 1px solid #222930;
+  border-radius: 2px;
+  color: var(--aim-cream);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  font-family: var(--mono);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+}
+:root[data-skin="aim"] .btn:hover { background: linear-gradient(#55606c, #454f59); }
+:root[data-skin="aim"] .btn:active { box-shadow: inset 0 2px 4px rgba(0,0,0,.5); }
+:root[data-skin="aim"] .btn.primary {
+  background: linear-gradient(#d8ae4e, #b0862f);
+  color: #1d1c17;
+  border-color: #7d5f1d;
+}
+:root[data-skin="aim"] .btn.primary:hover { background: linear-gradient(#e6bb59, #bd9236); }
+:root[data-skin="aim"] .btn.ghost {
+  background: transparent;
+  border-color: #4d5763;
+  color: #b9beb0;
+}
+:root[data-skin="aim"] .btn.danger {
+  background: linear-gradient(#a85a4c, #8d4a3e);
+  border-color: #5e2f26;
+  color: #f2e6df;
+}
+
+/* ── chips / tags ────────────────────────────────────────────────────── */
+:root[data-skin="aim"] .chip,
+:root[data-skin="aim"] .tag {
+  background: #2b323a;
+  border: 1px solid #414b56;
+  border-radius: 2px;
+  font-family: var(--mono);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+:root[data-skin="aim"] .chip.good { color: var(--aim-olive); border-color: #5c6540; }
+:root[data-skin="aim"] .chip.bad  { color: #d98a7a; border-color: #6d3c33; }
+:root[data-skin="aim"] .chip.accent { color: var(--accent); border-color: #6d5520; }
+
+/* ── inputs read like terminal fields ────────────────────────────────── */
+:root[data-skin="aim"] input,
+:root[data-skin="aim"] select,
+:root[data-skin="aim"] textarea {
+  background: #232930;
+  border: 1px solid #454f5a;
+  border-radius: 2px;
+  color: var(--aim-cream);
+  font-family: var(--mono);
+}
+:root[data-skin="aim"] input:focus,
+:root[data-skin="aim"] select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(224,168,60,.18);
+  outline: none;
+}
+
+/* ── stat bars: the blue fill from the evaluation screen ─────────────── */
+:root[data-skin="aim"] .bar,
+:root[data-skin="aim"] .meter { background: #262c33; border-radius: 1px; }
+:root[data-skin="aim"] .bar > i,
+:root[data-skin="aim"] .meter > i {
+  background: linear-gradient(#6d9dc6, #4b7ba6);
+  border-radius: 1px;
+}
+/* health keeps its red-to-green meaning; only the hues are re-tuned, because
+   the colour carries information the skin has no business throwing away */
+:root[data-skin="aim"] .bar.hp > i {
+  background: linear-gradient(90deg, #b8503f, #98a06a);
+}
+
+/* ── list rows ───────────────────────────────────────────────────────── */
+:root[data-skin="aim"] .item,
+:root[data-skin="aim"] .pick {
+  background: #2f363e;
+  border: 1px solid #262d35;
+  border-radius: 2px;
+}
+:root[data-skin="aim"] .pick.on {
+  border-color: var(--accent);
+  background: #3a3a2c;
+}
+:root[data-skin="aim"] .nm { color: var(--aim-cream); }
+:root[data-skin="aim"] .grp,
+:root[data-skin="aim"] .ds { color: #8f959d; }
+
+/* ── modals: a panel inside the housing ──────────────────────────────── */
+:root[data-skin="aim"] .modal {
+  background: #39424c;
+  border: 1px solid #1d232a;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 30px 80px -30px #000;
+}
+:root[data-skin="aim"] .modal-h {
+  background: linear-gradient(#d6d0b6, #c2bca1);
+  color: var(--aim-ink);
+  border-bottom: 2px solid #7d7962;
+}
+:root[data-skin="aim"] .modal-h h2 {
+  color: var(--aim-ink);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: 13px;
+}
+:root[data-skin="aim"] .scrim { background: rgba(6,7,9,.72); }
+
+/* ── banners ─────────────────────────────────────────────────────────── */
+:root[data-skin="aim"] .banner {
+  background: #33383a;
+  border: 1px solid #4a5560;
+  border-left: 3px solid var(--accent);
+  border-radius: 2px;
+}
+:root[data-skin="aim"] .banner.info { border-left-color: var(--info); }
+
+/* ── the "secured connection" footer flourish ────────────────────────── */
+:root[data-skin="aim"] .main-inner::after {
+  content: "SECURED CONNECTION";
+  display: block;
+  margin: 26px 0 8px;
+  text-align: center;
+
+  color: #5f676f;
+  font-size: 10px;
+  letter-spacing: .28em;
+}
+
+/* ── 1990s hardware pass ─────────────────────────────────────────────────
+ *
+ * The skin got the colours right but kept the modern rounded shapes, so a
+ * square field ended up sitting inside an oval container in the top bar -
+ * the one thing that broke the illusion. Everything below squares off the
+ * containers and gives them the hard inset/outset bevels of the era.
+ *
+ * Deliberately NOT squared: the spinner, the toggle knob and the pending
+ * dot. Those read as broken rather than retro when they lose their radius.
+ */
+
+/* The oval around the save picker. It came from style.css (border-radius:
+   99px) and was never overridden here. The field, the Browse button and the
+   reload button now sit directly on the cream strip with nothing wrapped
+   around them. */
+:root[data-skin="aim"] .savepick {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  gap: 6px;
+}
+
+/* A proper 90s sunken field: dark on the top-left, light on the bottom-right,
+   with a solid triangle for the drop-down instead of nothing at all. */
+:root[data-skin="aim"] .savepick select {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+  border: 1px solid #6f6b57;
+  padding: 4px 24px 4px 8px;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,.28),
+              inset -1px -1px 0 rgba(255,255,255,.55);
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='6'%3E%3Cpath d='M0 0h9L4.5 6z' fill='%232a2b26'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+:root[data-skin="aim"] .savepick select:focus {
+  outline: 1px dotted var(--aim-ink);
+  outline-offset: -3px;
+}
+
+/* Raised buttons that actually press in. */
+:root[data-skin="aim"] .topbar .btn,
+:root[data-skin="aim"] .topbar .btn.ghost {
+  border-radius: 0;
+  border: 1px solid #6f6b57;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.55),
+              inset -1px -1px 0 rgba(0,0,0,.40);
+}
+:root[data-skin="aim"] .topbar .btn:active {
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,.40),
+              inset -1px -1px 0 rgba(255,255,255,.35);
+}
+
+/* The reload glyph was inheriting a washed-out colour against the cream
+   strip. Same ink as the rest of the bar, and monospace so it sits on the
+   same grid as everything else. */
+:root[data-skin="aim"] #btn-reload {
+  color: var(--aim-ink);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1;
+  padding: 5px 9px;
+}
+:root[data-skin="aim"] #btn-open { font-family: var(--mono); letter-spacing: .04em; }
+
+/* Square off the remaining containers and bars. */
+:root[data-skin="aim"] .pending-chip,
+:root[data-skin="aim"] .tag,
+:root[data-skin="aim"] .savebar,
+:root[data-skin="aim"] .bar,
+:root[data-skin="aim"] .bar > i,
+:root[data-skin="aim"] .meter,
+:root[data-skin="aim"] input[type="range"],
+:root[data-skin="aim"] ::-webkit-scrollbar-thumb {
+  border-radius: 0;
+}
+:root[data-skin="aim"] input[type="range"]::-webkit-slider-thumb {
+  border-radius: 0;
+  border: 1px solid #10141a;
+}
+
+/* Panels get a hairline bevel so they read as housings, not flat cards. */
+:root[data-skin="aim"] .card {
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.05),
+              inset -1px -1px 0 rgba(0,0,0,.45),
+              var(--shadow);
+}
+
+/* ── the A.I.M. desk ─────────────────────────────────────────────────────
+ * The game's own A.I.M. site background (Packs/UI.hpk, PDA/aim_background),
+ * laid under a heavy dark wash so it reads as texture behind the terminal
+ * rather than wallpaper competing with the text.
+ */
+:root[data-skin="aim"] body {
+  background:
+    linear-gradient(rgba(10,11,13,.30), rgba(10,11,13,.45)),
+    url("aim-bg.jpg") center center / cover no-repeat fixed,
+    var(--bg-grad);
+  background-color: var(--bg);
+}
+
+/* The panels covered the whole window, so the desk texture had nowhere to
+   show. Giving the housings a little transparency lets it read through as
+   grain without putting anything behind the text itself. */
+:root[data-skin="aim"] .card { background-color: rgba(58, 67, 77, .82); }
+:root[data-skin="aim"] .nav  { background-color: rgba(44, 51, 60, .72); }
+:root[data-skin="aim"] .card .card-h { background-color: rgba(44, 51, 60, .55); }

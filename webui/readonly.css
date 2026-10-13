@@ -1,0 +1,27 @@
+/* Read-only saves.
+ *
+ * Set on the root element whenever the open save reports read_only - today
+ * that means Jagged Alliance 2, whose records are located but not yet decoded.
+ *
+ * This switches off every control in the content area rather than hunting
+ * down each button individually. Offering a control that the server will
+ * refuse is worse than not offering it: the user does the work of deciding,
+ * clicks, and then gets told no.
+ *
+ * The top bar stays live on purpose - switching save, browsing and changing
+ * the theme are all still perfectly valid.
+ */
+:root[data-readonly="1"] .main-inner .btn,
+:root[data-readonly="1"] .main-inner input,
+:root[data-readonly="1"] .main-inner select,
+:root[data-readonly="1"] .main-inner textarea {
+  pointer-events: none;
+  opacity: .45;
+  filter: grayscale(35%);
+}
+
+/* inputs still need to show their value clearly, just not invite typing */
+:root[data-readonly="1"] .main-inner input,
+:root[data-readonly="1"] .main-inner select {
+  opacity: .7;
+}

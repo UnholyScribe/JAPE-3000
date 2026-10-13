@@ -1,0 +1,32 @@
+# PyInstaller version resource.
+#
+# An unsigned binary with no version metadata at all looks like something
+# thrown together, and heuristic scanners score it that way. Filling this in
+# costs nothing and makes the file look like what it is.
+VSVersionInfo(
+  ffi=FixedFileInfo(
+    filevers=(1, 0, 0, 0),
+    prodvers=(1, 0, 0, 0),
+    mask=0x3f,
+    flags=0x0,
+    OS=0x40004,
+    fileType=0x1,
+    subtype=0x0,
+    date=(0, 0)
+  ),
+  kids=[
+    StringFileInfo([
+      StringTable('040904B0', [
+        StringStruct('CompanyName', 'OWLC'),
+        StringStruct('FileDescription', 'JAPE 3000 - Jagged Alliance 3 Person Editor'),
+        StringStruct('FileVersion', '1.0.0.0'),
+        StringStruct('InternalName', 'JAPE3000'),
+        StringStruct('OriginalFilename', 'JAPE3000.exe'),
+        StringStruct('ProductName', 'JAPE 3000'),
+        StringStruct('ProductVersion', '1.0.0.0'),
+        StringStruct('Comments', 'Save editor for Jagged Alliance 3. Named for JAPE, the Jagged Alliance 2 Person Editor. No network access.')
+      ])
+    ]),
+    VarFileInfo([VarStruct('Translation', [1033, 1200])])
+  ]
+)

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" data-default-skin="modern">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JAPE 3000</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="skin-aim.css">
+<link rel="stylesheet" href="skin-ja2.css">
+<link rel="stylesheet" href="ja2-dashboard.css">
+<link rel="stylesheet" href="readonly.css">
+</head>
+<body>
+<div id="app">
+  <div class="topbar">
+    <div class="brand"><span class="mark">JA</span> JAPE 3000 <small>A.I.M.</small></div>
+    <div class="savepick">
+      <select id="savesel"></select>
+      <button class="btn ghost sm" id="btn-open" title="Open a save from anywhere">Browse…</button>
+      <button class="btn ghost sm icon" id="btn-reload" title="Reload from disk">↻</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="pending-chip" id="livechip" title="The game is running and connected. Changes go straight into it instead of the save file. Click to switch back to editing the save."><span class="dot"></span><span id="livetxt"></span></div>
+    <div class="pending-chip" id="pendchip"><span class="dot"></span><span id="pendtxt"></span></div>
+    <button class="btn ghost sm" id="btn-skin" title="Switch between the modern look and the A.I.M. terminal look">Look</button>
+    <button class="btn ghost sm" id="btn-reset" title="Reload everything - the page, the catalogue, portraits and the save. Try this first if something looks stale or the window goes black. F5 or Ctrl+R does the same.">Reset</button>
+    <button class="btn ghost sm" id="btn-folder" title="Show the save folder">Folder</button>
+  </div>
+  <div class="body">
+    <nav class="nav" id="nav"></nav>
+    <main class="main"><div class="main-inner" id="view"></div></main>
+  </div>
+</div>
+
+<div class="savebar" id="savebar">
+  <span class="txt" id="savetxt"></span>
+  <button class="btn ghost sm" id="btn-discard">Discard</button>
+  <button class="btn primary" id="btn-save">Write to save</button>
+</div>
+
+<div class="toasts" id="toasts"></div>
+<div id="modal-root"></div>
+
+<script src="app.js"></script>
+<script src="ja2-dashboard.js"></script>
+</body>
+</html>

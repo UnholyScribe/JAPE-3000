@@ -1,0 +1,184 @@
+/* The Jagged Alliance 2 dashboard.
+ *
+ * JAPE puts everything on one screen and never makes you open anything: the
+ * roster down the left, every attribute permanently visible, the gear as a
+ * grid, and one editor panel that changes to match whatever you clicked. That
+ * is the layout being reproduced here - the arrangement is JAPE's, the finish
+ * is ours.
+ *
+ * Four columns, and they collapse in a deliberate order as the window narrows:
+ * the gear column drops under the stats first, then the roster goes to the
+ * top. The roster and the item editor are the two things that must never be
+ * more than one glance away.
+ */
+
+.ja2 {
+  display: grid;
+  grid-template-columns: 232px 300px minmax(180px, 1fr) minmax(340px, 1.35fr);
+  gap: 14px;
+  align-items: start;
+}
+
+/* Narrow: three columns, and the merc moves UNDER the roster rather than
+   going away. Hiding the face was the first thing tried here and it was the
+   wrong thing to drop - the whole point of the middle column is that you can
+   see who you are editing. The roster gives up height instead, which costs a
+   scroll rather than the information. */
+@media (max-width: 1500px) {
+  .ja2 { grid-template-columns: 224px 288px minmax(320px, 1fr); }
+  .ja2 > :nth-child(1) { grid-column: 1; grid-row: 1; }
+  .ja2 > :nth-child(3) { grid-column: 1; grid-row: 2; }
+  .ja2 > :nth-child(2) { grid-column: 2; grid-row: 1 / span 2; }
+  .ja2 > :nth-child(4) { grid-column: 3; grid-row: 1 / span 2; }
+  .ja2-roster { max-height: 44vh; }
+  .ja2-face img { max-width: 150px; }
+}
+
+/* One column. Everything keeps its order - roster, attributes, merc, gear -
+   and the roster stops being a wall you have to scroll past. */
+@media (max-width: 1120px) {
+  .ja2 { grid-template-columns: 1fr; }
+  .ja2 > :nth-child(1), .ja2 > :nth-child(2),
+  .ja2 > :nth-child(3), .ja2 > :nth-child(4) {
+    grid-column: 1; grid-row: auto;
+  }
+  .ja2-roster { max-height: 38vh; }
+}
+
+/* ── the roster ──────────────────────────────────────────────────────── */
+.ja2-roster {
+  max-height: calc(100vh - 190px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.ja2-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 5px 8px; cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm, 6px);
+}
+.ja2-row:hover { background: rgba(255,255,255,.045); }
+.ja2-row.on {
+  background: rgba(216,168,72,.14);
+  border-color: rgba(216,168,72,.5);
+}
+.ja2-row img { width: 30px; height: 30px; object-fit: cover; flex: none;
+               border-radius: var(--r-sm, 4px); }
+.ja2-row .nm { font-size: 12.5px; font-weight: 600; line-height: 1.15; }
+.ja2-row .sub { font-size: 10.5px; color: var(--faint); }
+.ja2-row .lv { margin-left: auto; font-size: 10.5px; color: var(--muted);
+               font-family: var(--mono); flex: none; }
+/* a merc who is actually on the team, not just listed at A.I.M. */
+.ja2-row .hired { color: var(--accent); }
+
+/* ── the stat column ─────────────────────────────────────────────────── */
+.ja2-stat {
+  display: grid; grid-template-columns: 84px 1fr 46px;
+  gap: 8px; align-items: center; margin-bottom: 5px;
+}
+.ja2-stat .k { font-size: 11.5px; color: var(--muted); }
+.ja2-stat input[type=range] { width: 100%; }
+.ja2-stat input[type=number] {
+  width: 46px; text-align: center; font-family: var(--mono);
+  font-size: 12px; font-weight: 600; padding: 2px 4px;
+}
+
+/* ── the merc, in the middle ─────────────────────────────────────────── */
+.ja2-face {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 10px 6px;
+}
+.ja2-face img {
+  width: 100%; max-width: 190px; image-rendering: auto;
+  border: 1px solid var(--border-2, rgba(255,255,255,.12));
+  border-radius: var(--r-sm, 6px);
+}
+.ja2-face .who { font-size: 15px; font-weight: 700; text-align: center; }
+.ja2-face .sub { font-size: 11.5px; color: var(--faint); text-align: center; }
+/* Reserved for the in-game body sprite. JA2 builds those at run time by
+   substituting palette ranges per merc, so it is a real job rather than an
+   extraction - until then this space carries the portrait. */
+.ja2-face .pending {
+  margin-top: 4px; font-size: 10px; color: var(--faint);
+  text-align: center; letter-spacing: .04em; cursor: help;
+  border-top: 1px dashed var(--border-2, rgba(255,255,255,.12));
+  padding-top: 6px; width: 100%;
+}
+
+/* ── the gear grid ───────────────────────────────────────────────────── */
+.ja2-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.ja2-slots.worn { grid-template-columns: repeat(3, 1fr); }
+.ja2-slots.hands { grid-template-columns: repeat(2, 1fr); }
+
+.ja2-slot {
+  border: 1px solid var(--border-2, rgba(255,255,255,.12));
+  border-radius: var(--r-sm, 6px);
+  background: var(--surface-3, rgba(0,0,0,.22));
+  padding: 6px; min-height: 72px; cursor: pointer;
+  display: flex; flex-direction: column; gap: 4px;
+  position: relative; overflow: hidden;
+}
+.ja2-slot:hover { border-color: rgba(216,168,72,.45); }
+.ja2-slot.on { border-color: var(--accent); background: rgba(216,168,72,.10); }
+.ja2-slot.empty { opacity: .5; }
+.ja2-slot .lbl {
+  font-size: 9.5px; text-transform: uppercase; letter-spacing: .04em;
+  color: var(--faint);
+}
+.ja2-slot .art { flex: 1; display: flex; align-items: center; justify-content: center; }
+.ja2-slot .art img { max-width: 100%; max-height: 34px; }
+/* No icon for this item yet - the glyph says which KIND of thing it is, which
+   is most of what an icon was going to tell you anyway. */
+.ja2-slot .art .glyph { font-size: 17px; opacity: .75; }
+.ja2-slot .it {
+  font-size: 10.5px; line-height: 1.2; text-align: center;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ja2-slot .qty {
+  position: absolute; top: 4px; right: 5px;
+  font-family: var(--mono); font-size: 10px; color: var(--accent);
+}
+.ja2-slot .cond {
+  position: absolute; bottom: 0; left: 0; height: 2px;
+  background: var(--good, #8fae5c);
+}
+.ja2-slot .cond.low { background: var(--bad, #b4523c); }
+/* something is fitted to this weapon */
+.ja2-slot .pips {
+  position: absolute; bottom: 4px; right: 5px;
+  font-size: 9px; color: var(--accent); letter-spacing: 1px;
+}
+
+/* ── the contextual editor ───────────────────────────────────────────── */
+.ja2-edit { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ja2-edit .wide { grid-column: 1 / -1; }
+.ja2-edit label { display: block; font-size: 11px; color: var(--muted);
+                  margin-bottom: 3px; }
+.ja2-edit input, .ja2-edit select { width: 100%; }
+/* A field that does not apply to this kind of item. Shown rather than hidden,
+   so the panel does not change shape every time you click a different slot -
+   JAPE greys them for the same reason. */
+.ja2-edit .off { opacity: .5; pointer-events: none; }
+.ja2-edit .derived {
+  color: var(--faint); font-family: var(--mono); font-size: 12px;
+  padding: 5px 0;
+}
+/* A read-only field that does have an answer, as opposed to one we cannot
+   fill in yet. Those two used to look identical, which said the wrong thing
+   about both of them. */
+.ja2-edit .derived.known { color: var(--text); }
+
+/* A merc with no portrait: their initials, at the two sizes used here. */
+.avatar.sm { width: 30px; height: 30px; font-size: 11px; flex: none; }
+.avatar.big { width: 100%; max-width: 190px; aspect-ratio: 1; font-size: 34px; }
+
+/* A slot carrying an edit that has not been written to the file yet. */
+.ja2-slot.dirty { border-color: rgba(240,180,41,.55); }
+.ja2-slot.dirty::after {
+  content: ''; position: absolute; top: 4px; left: 5px;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+}
+
+/* Five worn slots over three columns, so the two headgear slots sit on their
+   own row rather than being squeezed to nothing. */
+.ja2-slots.worn { grid-template-columns: repeat(3, 1fr); }
